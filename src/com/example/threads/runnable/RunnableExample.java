@@ -1,3 +1,5 @@
+package com.example.threads.runnable;
+
 public class RunnableExample implements Runnable{
 
    public static void main(String args[]) {
