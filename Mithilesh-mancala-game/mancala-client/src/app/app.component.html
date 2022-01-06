@@ -1,0 +1,51 @@
+<h1>Mancala Project</h1>
+<mat-grid-list cols="{{pitCount+2}}" rowHeight="100px" gutterSize="10px" class="mancala-grid">
+
+  <mat-grid-tile
+    [colspan]="1"
+    [rowspan]="2" class="big-pit">
+    <mat-card>
+      <mat-card-title> Player 2</mat-card-title>
+      <mat-card-content>
+        <button mat-stroked-button> {{board?.player2.position[pitCount]}}  </button>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile
+    [colspan]="1"
+    [rowspan]="1" *ngFor="let stones of board?.player2.position.slice(0,pitCount).reverse();let i = index"
+    class="pit-container">
+    <div class="pits">
+      <button mat-fab color="accent" [disabled]="board?.playerTurn !== PlayerPosition.PLAYER_TWO"
+              (click)="stones > 0 && pitClick(pitCount-i,PlayerPosition.PLAYER_TWO)">{{stones}}</button>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="1" [rowspan]="2" class="player1 big-pit">
+    <mat-card>
+      <mat-card-title> Player 1</mat-card-title>
+      <mat-card-content>
+        <button mat-stroked-button> {{board?.player1.position[pitCount]}} </button>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile
+    [colspan]="1"
+    [rowspan]="1" *ngFor="let stones of board?.player1.position.slice(0,pitCount);let i = index"
+    class="pit-container player1">
+    <div class="pits">
+      <button mat-fab color="primary" [disabled]="board?.playerTurn !== PlayerPosition.PLAYER_ONE"
+              (click)="stones>0 && pitClick(i+1,PlayerPosition.PLAYER_ONE)">{{stones}}</button>
+    </div>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+<div class="reset-game">
+  <button mat-raised-button color="accent" (click)="initialiseBoard()">Reset</button>
+</div>
+
+<h1 *ngIf="board?.winner">{{board?.winner}}</h1>
+<router-outlet></router-outlet>
